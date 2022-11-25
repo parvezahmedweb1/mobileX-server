@@ -25,6 +25,23 @@ const dbConnected = async () => {
 dbConnected();
 // ? db collection
 const Categories = client.db("MobileX").collection("Categories");
+const Products = client.db("MobileX").collection("Products");
+// ? filter products
+app.get("/products/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const result = await Products.find({ categoriesId: id }).toArray();
+    res.send({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      error: "Can't found the Products!!!",
+    });
+  }
+});
 // ? get the all categories
 app.get("/categories", async (req, res) => {
   try {
