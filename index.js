@@ -26,6 +26,30 @@ dbConnected();
 // ? db collection
 const Categories = client.db("MobileX").collection("Categories");
 const Products = client.db("MobileX").collection("Products");
+const Users = client.db("MobileX").collection("Users");
+// ? all users
+app.put("/user/:email", async (req, res) => {
+  try {
+    const email = req.params.email;
+    console.log(email);
+    const user = req.body;
+    const filter = { email: email };
+    const options = { upsert: true };
+    const updateDoc = {
+      $set: user,
+    };
+    const result = await Users.updateOne(filter, updateDoc, options);
+    console.log(result);
+    res.send({
+      status: "success",
+    });
+  } catch (err) {
+    res.send({
+      success: false,
+      error: err.message,
+    });
+  }
+});
 // ? filter products
 app.get("/products/:id", async (req, res) => {
   try {
