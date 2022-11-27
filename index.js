@@ -178,6 +178,23 @@ app.put("/user/:email", async (req, res) => {
     });
   }
 });
+// ?get user booking
+app.get("/bookings/:email", async (req, res) => {
+  try {
+    const email = req.params.email;
+    const filter = { email: email };
+    const result = await Bookings.find(filter).toArray();
+    res.send({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      error: err.message,
+    });
+  }
+});
 // ? user booking
 app.post("/bookings", async (req, res) => {
   try {
